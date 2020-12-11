@@ -1,2 +1,2 @@
-# magento2-openpaypaymentplugin
-Repository for Magento 2 plugin
+# Openpay Payment Plugin
+Openpay Payment Plugin for Magento 2 platform

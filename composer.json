@@ -1,0 +1,28 @@
+{
+    "name": "opy/module-payment",
+    "description": "Openpay Payment Method for Magento 2.",
+    "type": "magento2-module",
+    "license": "proprietary",
+    "require": {
+        "ideatarmac/openpay": "1.0.0"        
+    },
+    "version": "1.0.0",    
+    "authors": [
+        {
+          "name": "Openpay",
+          "email": "info@openpay.com.au",
+          "homepage": "https://www.openpay.com.au"
+        }
+    ],
+    "minimum-stability": "stable",
+    "prefer-stable" : true,
+    "autoload": {
+      "files": [
+        "registration.php"
+      ],
+      "psr-4": {
+        "Openpay\\Payment\\": ""
+      }
+    }
+}
+  

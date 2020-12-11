@@ -1,0 +1,9 @@
+<div style="width:100%;text-align:center;">
+     <img src="<?php echo $this->getViewFileUrl('images/loader-2.gif') ?>"/> 
+     <p>Redirecting to the Payment Page.... Please wait</p>
+</div>
+<?php
+$data = $this->getData();
+$paymentPage = $data['paymentPage'];
+?>
+<meta http-equiv="refresh" content = "0;url=<?php echo $paymentPage->endpointUrl; ?>">

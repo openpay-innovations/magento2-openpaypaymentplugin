@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="openpay" translate="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Openpay</label>
+                <comment><![CDATA[Openpay is an alternative interest-free payment method available for customers at checkout<br/>]]></comment>
+                <fieldset_css>openpay-section</fieldset_css>
+                <frontend_model>Magento\Paypal\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+                <attribute type="displayIn">recommended_solutions</attribute>
+                <group id="credentials" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Openpay Configuration</label>
+                    <field id="active" translate="label" sortOrder="1" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enable</label>
+                        <config_path>payment/openpay/active</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="title" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/openpay/title</config_path>
+                    </field>
+                    <field id="description" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Description</label>
+                        <config_path>payment/openpay/description</config_path>
+                    </field>
+                    <field id="payment_mode" translate="label" type="radios" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Mode</label>
+                        <source_model>Openpay\Payment\Model\Adminhtml\Source\EnvRadioBtn</source_model>
+                        <config_path>payment/openpay/payment_mode</config_path>
+                    </field>
+                    <field id="auth_user" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Openpay Username</label>
+                        <config_path>payment/openpay/auth_user</config_path>
+                    </field>
+                    <field id="auth_token" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Openpay Password</label>
+                        <config_path>payment/openpay/auth_token</config_path>
+                    </field>
+                    <field id="minimum" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Minimum Checkout Value</label>
+                        <config_path>payment/openpay/minimum</config_path>
+                        <frontend_model>Openpay\Payment\Block\System\Config\Form\Field\Disable</frontend_model>
+                    </field>
+                    <field id="maximum" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Maximum Checkout Value</label>
+                        <config_path>payment/openpay/maximum</config_path>
+                        <frontend_model>Openpay\Payment\Block\System\Config\Form\Field\Disable</frontend_model>
+                    </field>
+                    <field id="button_id" translate="label" type="button" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Get Min/Max Values</label>
+                        <frontend_model>Openpay\Payment\Block\System\Config\Form\Field\Button</frontend_model>
+                    </field>
+                    <field id="job_frequency" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Update Pending Order older than</label>
+                        <config_path>payment/openpay/job_frequency</config_path>
+                        <frontend_model>Openpay\Payment\Block\System\Config\Form\Field\Disable</frontend_model>
+                    </field>
+                    <field id="schedule_limit" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Schedule for Limit Configuration</label>
+                        <config_path>payment/openpay/schedule_limit</config_path>
+                        <frontend_model>Openpay\Payment\Block\System\Config\Form\Field\Disable</frontend_model>
+                    </field>
+                    <field id="schedule_pending_order_status" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Schedule for Pending Order Status</label>
+                        <can_be_empty>0</can_be_empty>
+                        <config_path>payment/openpay/schedule_pending_order_status</config_path>
+                        <frontend_model>Openpay\Payment\Block\System\Config\Form\Field\Disable</frontend_model>
+                    </field>
+                    <field id="disable_categories" translate="label" sortOrder="1" type="multiselect" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Disabled Categories</label>
+                        <config_path>payment/openpay/disable_categories</config_path>
+                        <source_model>Openpay\Payment\Model\Adminhtml\Source\Categories</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                    <field id="disable_products" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Disabled Products</label>
+                        <config_path>payment/openpay/disable_products</config_path>
+                        <comment><![CDATA[Add product skus with comma seperated.]]></comment>
+                    </field>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>

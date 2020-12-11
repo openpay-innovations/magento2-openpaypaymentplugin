@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+	<group id="openpay_payment">
+		<job instance="Openpay\Payment\Cron\LimitConfiguration" method="execute" name="openpay_minmax_cron">
+			<config_path>payment/openpay/schedule_limit</config_path>
+		</job>
+		<job instance="Openpay\Payment\Cron\CheckPendingOrder" method="execute" name="openpay_change_order_status">
+			<config_path>payment/openpay/schedule_pending_order_status</config_path>
+		</job>
+	</group>
+</config>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Store/etc/config.xsd">
+    <default>
+        <payment>
+            <openpay>
+                <model>Openpay\Payment\Model\Openpay</model>
+                <active>1</active>
+                <title>Openpay - Buy now. Pay smarter.</title>
+                <description>Secure payment with Openpay</description>
+                <schedule_limit>0 0 * * *</schedule_limit>
+                <schedule_pending_order_status>0 * * * *</schedule_pending_order_status>
+                <job_frequency>30</job_frequency>
+                <payment_mode>test</payment_mode>
+            </openpay>
+        </payment>
+    </default>
+</config>

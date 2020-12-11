@@ -1,0 +1,23 @@
+<?php
+
+namespace Openpay\Payment\Block\System\Config\Form\Field;
+
+use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Config\Block\System\Config\Form\Field;
+
+/**
+ * Class Disable
+ *
+ * This class will make some of the fields disabled on the admin openpay form
+ */
+class Disable extends Field
+{
+    /**
+     * {@inheritDoc}
+     */
+    protected function _getElementHtml(AbstractElement $element)
+    {
+        $element->setDisabled('disabled');
+        return $element->getElementHtml();
+    }
+}

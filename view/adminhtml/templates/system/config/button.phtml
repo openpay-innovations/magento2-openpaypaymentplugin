@@ -1,0 +1,67 @@
+<script>
+require([
+    'jquery',
+    'prototype'
+], function(jQuery){
+
+    var customSpan = jQuery('#custom_span');
+
+    jQuery('#btn_id').click(function () {
+
+        var params = {
+            'auth_user' : jQuery('input[name="groups[openpay][groups][credentials][fields][auth_user][value]"]').val(),
+            'auth_token' : jQuery('input[name="groups[openpay][groups][credentials][fields][auth_token][value]"]').val(),
+            'payment_mode' : jQuery('input[name="groups[openpay][groups][credentials][fields][payment_mode][value]"]:checked').val()
+        };
+        new Ajax.Request('<?php echo $block->getCustomUrl() ?>', {
+            parameters:     params,
+            loaderArea:     false,
+            asynchronous:   true,
+            onCreate: function() {
+                customSpan.find('.collected').hide();
+                customSpan.find('.processing').show();
+                jQuery('#collect_message_span').text('');
+            },
+            onSuccess: function(response) {
+                customSpan.find('.processing').hide();
+                var resultText = '';
+                var data = '';
+                if (response.status > 200) {
+                    resultText = response.statusText;
+                } else {
+                    resultText = 'Values updated successfully!';
+                    customSpan.find('.collected').show();
+                    data = JSON.parse(response.responseText);
+                    if (data.success) {
+                        if (data.min) {
+                        jQuery('#payment_us_openpay_credentials_minimum').val(data.min);
+                        }
+                        if (data.max) {
+                            jQuery('#payment_us_openpay_credentials_maximum').val(data.max);
+                        }
+                        jQuery('#custom_message_span').removeClass('error');
+                        jQuery('#custom_message_span').text(resultText);
+                    } else {
+                        jQuery('#custom_message_span').addClass('error');
+                        jQuery('#custom_message_span').text(data.message);
+                    }
+
+                }
+               
+            }
+        });
+    });
+
+});
+</script>
+
+<?php echo $block->getButtonHtml() ?>
+<span class="custom-indicator" id="custom_span">
+    <img class="processing" hidden="hidden" alt="Collecting" style="margin:0 5px" src="<?php echo $block->getViewFileUrl('images/process_spinner.gif') ?>"/>
+    <br><br><span id="custom_message_span"></span>
+</span>
+<style>
+.error {
+    color: red;
+}
+</style>
