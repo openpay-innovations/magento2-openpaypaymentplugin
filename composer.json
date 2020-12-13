@@ -2,11 +2,10 @@
     "name": "opy/module-payment",
     "description": "Openpay Payment Method for Magento 2.",
     "type": "magento2-module",
-    "license": "MIT",
+    "license": "proprietary",
     "require": {
         "ideatarmac/openpay": "1.0.0"        
     },
-    "version": "1.0.0",
     "authors": [
         {
           "name": "Openpay",
