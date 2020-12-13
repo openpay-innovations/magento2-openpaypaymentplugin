@@ -34,10 +34,10 @@ require([
                     data = JSON.parse(response.responseText);
                     if (data.success) {
                         if (data.min) {
-                        jQuery('#payment_us_openpay_credentials_minimum').val(data.min);
+                        jQuery('input[name="groups[openpay][groups][credentials][fields][minimum][value]"]').val(data.min);
                         }
                         if (data.max) {
-                            jQuery('#payment_us_openpay_credentials_maximum').val(data.max);
+                            jQuery('input[name="groups[openpay][groups][credentials][fields][maximum][value]"]').val(data.max);
                         }
                         jQuery('#custom_message_span').removeClass('error');
                         jQuery('#custom_message_span').text(resultText);
