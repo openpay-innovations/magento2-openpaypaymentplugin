@@ -4,7 +4,7 @@
     "type": "magento2-module",
     "license": "proprietary",
     "require": {
-        "ideatarmac/openpay": "1.0.0"        
+        "ideatarmac/openpay": "1.0.*"        
     },
     "authors": [
         {
