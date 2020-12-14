@@ -1,4 +1,4 @@
-![Openpay Logo](https://static.openpay.com.au/brand/logo/openpay_logo_transparent.svg =170x)
+<img src="https://static.openpay.com.au/brand/logo/openpay_logo_transparent.svg" width="170" alt="Openpay Logo">
 
 Introduction
 ---------
@@ -34,7 +34,7 @@ Requirements
 
 [Magento 2.4 system requirements](https://devdocs.magento.com/guides/v2.4/install-gde/system-requirements.html)
 
-For further info on Magento 2 System Requirements. Please read [here].(https://www.simicart.com/blog/magento-2-system-requirements)
+For further info on Magento 2 System Requirements. Please read [here](https://www.simicart.com/blog/magento-2-system-requirements).
 
 Installation
 ---------
