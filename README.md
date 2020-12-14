@@ -64,7 +64,7 @@ Or, you can do it manually from the admin by following the path: `System` > `Too
 Configuration
 ---------
 
-In the backend, please click on the `Stores` tab in the left sidebar and go to `Configuration -> Sales-> Payment Methods`. 
+In the backend, please click on the `Stores` tab in the left sidebar and go to `Configuration->Sales->Payment Methods`. 
 
 Under `Recommended Solutions`, you will find the Openpay option with the link to configure different settings available for the Openpay Payment module i.e fields to enter the Auth Token provided by Openpay and use the relevant mode.
 
