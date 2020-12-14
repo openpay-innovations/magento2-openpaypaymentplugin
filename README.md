@@ -27,7 +27,7 @@ Requirements
 - JSON extension for PHP
 - Multibyte String extension for PHP
 - Magento should be pre-installed on your web server. The Openpay module is compatible with Magento version 2.1.x. The extension has been tested on Magento version 2.1.x
-- SSL: A valid security certificate is required to work over a secure channel (HTTPS) from the Magento Admin Panel or while submitting the form data from the storefront. Self?signed SSL certificates are not supported
+- SSL: A valid security certificate is required to work over a secure channel (HTTPS) from the Magento Admin Panel or while submitting the form data from the storefront. Self signed SSL certificates are not supported
 - Curl (version 7.20.0 ? 7.4.0)
 
 [Magento 2.3 technology stack requirements](https://devdocs.magento.com/guides/v2.3/install-gde/system-requirements.html)
@@ -41,7 +41,7 @@ Installation
 
 ### Composer
 
-The preferred method is via [composer](https://getcomposer.org). Follow the [installation instructions](https://getcomposer.org/doc/00-intro.md) if you do not already have
+Use [composer](https://getcomposer.org) to install the Openpay payment module. Follow the [installation instructions](https://getcomposer.org/doc/00-intro.md) if you do not already have
 composer installed.
 
 Once composer is installed, execute the following command in your project root to install this library:
@@ -50,7 +50,8 @@ Once composer is installed, execute the following command in your project root t
 composer require opy/module-payment
 ```
 
-#### Using server SSH Access, please go to project root folder and run the following commands  to ensure the configuration tasks are run, database schema is updated and Magento's Cache is cleared. 
+
+Using server SSH Access, please go to project root folder and run the following commands to ensure the configuration tasks are run, database schema is updated and Magento's Cache is cleared.
 
 - php bin/magento setup:upgrade
 
@@ -63,7 +64,7 @@ Or, you can do it manually from the admin by following the path: `System` > `Too
 Configuration
 ---------
 
-In the backend, please click on the `Stores` tab in the left sidebar and go to `Configuration -> Sales->Payment Methods`. 
+In the backend, please click on the `Stores` tab in the left sidebar and go to `Configuration -> Sales-> Payment Methods`. 
 
 Under `Recommended Solutions`, you will find the Openpay option with the link to configure different settings available for the Openpay Payment module i.e fields to enter the Auth Token provided by Openpay and use the relevant mode.
 
