@@ -123,7 +123,9 @@ class Reside extends Action
                     );
                 }
 
-                if ((int)($quote->getGrandTotal() * 100) == $purchasePrice) {
+                $totalFromCart = round((float)$quote->getGrandTotal(), 2);
+
+                if ((int)($totalFromCart * 100) == $purchasePrice) {
                     $orderId = $this->quoteManagement->placeOrder($quote->getId());
                     $order = $this->orderRepository->get($orderId);
                     $order->setToken($planid);

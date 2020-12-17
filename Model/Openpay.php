@@ -145,12 +145,14 @@ class Openpay extends \Magento\Payment\Model\Method\AbstractMethod
         $totalOnlineRefund = $order->getTotalOnlineRefunded();
 
         $remainingAmount = $totalPaid - $totalOnlineRefund;
-        if ($remainingAmount == 0) {
+        if (round($remainingAmount, 6) == 0) {
             $isFullRefund = true;
         }
+        $reduce = round((float)$amount, 2);
+
         $prices = [
             'newPrice' => 0,
-            'reducePriceBy'=> $amount * 100,
+            'reducePriceBy'=> (int)($reduce * 100),
             'isFullRefund' => $isFullRefund
         ];
 
