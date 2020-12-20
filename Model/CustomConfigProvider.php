@@ -5,6 +5,7 @@ namespace Openpay\Payment\Model;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Openpay\Payment\Helper\Config as ConfigHelper;
 use Openpay\Payment\Helper\Data as DataHelper;
+use Openpay\Payment\Model\Openpay;
 
 /**
  * Class customconfigprovider
@@ -24,18 +25,24 @@ class CustomConfigProvider implements ConfigProviderInterface
     /** @var DataHelper */
     protected $dataHelper;
 
+    /** @var Openpay */
+    protected $openpay;
+
     /**
      * customconfigprovider constructor
      *
      * @param ConfigHelper $configHelper
      * @param DataHelper   $dataHelper
+     * @param Openpay      $openpay
      */
     public function __construct(
         ConfigHelper $configHelper,
-        DataHelper $dataHelper
+        DataHelper $dataHelper,
+        Openpay $openpay
     ) {
         $this->configHelper = $configHelper;
         $this->dataHelper = $dataHelper;
+        $this->openpay = $openpay;
     }
 
     public function getConfig()
@@ -60,7 +67,8 @@ class CustomConfigProvider implements ConfigProviderInterface
             'payment' =>  [
                 self::METHOD_CODE =>  [
                     'is_enable' => $isEnable,
-                    'title' => $this->configHelper->getTitle($storeId),
+                    'title' => $this->openpay->getTitle(),
+                    //'title' => $this->configHelper->getTitle($storeId),
                     'description' => $this->configHelper->getDescription($storeId),
                     'username' => $this->configHelper->getUsername($storeId),
                     'password' => $this->configHelper->getPassword($storeId),

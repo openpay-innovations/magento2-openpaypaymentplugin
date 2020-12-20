@@ -75,6 +75,41 @@ define(
                 '<input type="hidden" name="cartId" value="' + quoteId + '" />' +
                 '<input type="hidden" name="email" value="' + quote.guestEmail + '" />' +
                 '</form>').appendTo('body').submit();
+            },
+            getWidgetEnabled: function () {
+                var widgetEnabled = window.checkoutConfig.widgetEnabled;
+                if (widgetEnabled !== 1) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+            },
+
+            getInstalmentText: function () {
+                var widgetEnabled = window.checkoutConfig.widgetEnabled;
+                if (widgetEnabled !== 1) {
+                    return '';
+                }
+                var widgetSettingConfig = window.checkoutConfig.widgetSetting;
+                return widgetSettingConfig.instalment_text;
+            },
+
+            getRedirectText: function () {
+                var widgetEnabled = window.checkoutConfig.widgetEnabled;
+                if (widgetEnabled !== 1) {
+                    return '';
+                }
+                var widgetSettingConfig = window.checkoutConfig.widgetSetting;
+                return widgetSettingConfig.redirect_text;
+            },
+
+            getMonthText: function () {
+                var widgetEnabled = window.checkoutConfig.widgetEnabled;
+                if (widgetEnabled !== 1) {
+                    return '';
+                }
+                var widgetSettingConfig = window.checkoutConfig.widgetSetting;
+                return widgetSettingConfig.month_text;
             }
         });
     }

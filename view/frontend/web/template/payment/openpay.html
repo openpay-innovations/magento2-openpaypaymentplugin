@@ -5,20 +5,41 @@
                name="payment[method]"
                class="radio"
                data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"/>
-        <label data-bind="attr: {'for': getCode()}" class="label">               
-        
-            <span data-bind="text: getTitle()"></span>
+        <label data-bind="attr: {'for': getCode()}" class="label">                     
+            <span data-bind="html: getTitle()"></span>
         </label>
-        <img data-bind="attr: {src: openpaySrc, height: '', width: '90'}" class="payment-icon"/>
+        <!-- ko ifnot: (getWidgetEnabled() == 1) -->
+            <img data-bind="attr: {src: openpaySrc, height: '', width: '90'}" class="payment-icon"/>
+          <!-- /ko -->    
     </div>
     <div class="payment-method-content">
         <!-- ko foreach: getRegion('messages') -->
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!--/ko-->
         
+        <!-- ko if: (getWidgetEnabled() == 1) -->
+          <div class="op-checkout-widget">
+            <div class="widget-inner">
+                <!-- ko if: (getMonthText() !== '') -->
+                    <div class="opplantier" data-bind="html: getMonthText()"></div>
+                <!-- /ko -->
+
+                <!-- ko if: (getInstalmentText() !== '') -->
+                    <div class="opfortnightly" data-bind="text: getInstalmentText()"></div>
+                <!-- /ko -->
+
+                <!-- ko if: (getRedirectText() !== '') -->
+                    <div class="opinstruction" data-bind="text: getRedirectText()"></div>
+                <!-- /ko -->
+            </div>
+        </div>
+        <!-- /ko -->
+
+        <!-- ko ifnot: (getWidgetEnabled() == 1) -->
         <div class="field">
             <span data-bind="html: getDescription()"></span>
         </div>
+         <!-- /ko -->
 
         <div class="payment-method-billing-address">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
