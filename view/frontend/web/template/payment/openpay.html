@@ -59,12 +59,12 @@
                         type="submit"
                         data-bind="
                         click: prepareForTokenization,
-                        attr: {title: $t('Place Order')},
+                        attr: {title: $t('Proceed to Openpay')},
                         css: {disabled: !isPlaceOrderActionAllowed()},
                         enable: (getCode() == isChecked())
                         "
                         disabled>
-                    <span data-bind="i18n: 'Place Order'"></span>
+                    <span data-bind="i18n: 'Proceed to Openpay'"></span>
                 </button>
             </div>
         </div>
