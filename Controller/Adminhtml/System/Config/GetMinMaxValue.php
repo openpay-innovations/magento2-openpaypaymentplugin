@@ -64,6 +64,7 @@ class GetMinMaxValue extends Action
         $authUser = $this->getRequest()->getParam('auth_user');
         $authToken = $this->getRequest()->getParam('auth_token');
         $paymentMode  = $this->getRequest()->getParam('payment_mode');
+        $region = $this->getRequest()->getParam('region');
 
         /** @var Json $result */
         $result = $this->resultJsonFactory->create();
@@ -74,6 +75,7 @@ class GetMinMaxValue extends Action
             $backofficeParams['auth_user'] = $authUser;
             $backofficeParams['auth_token'] = $authToken;
             $backofficeParams['payment_mode'] = $paymentMode;
+            $backofficeParams['region'] = $region;
             $response = $this->dataHelper->getLimits($backofficeParams);
             if (array_key_exists('message', $response)) {
                 return $result->setData(
@@ -87,6 +89,7 @@ class GetMinMaxValue extends Action
             $this->configWriter->save(ConfigHelper::XML_PATH_USERNAME, $authUser);
             $this->configWriter->save(ConfigHelper::XML_PATH_PASSWORD, $authToken);
             $this->configWriter->save(ConfigHelper::XML_PATH_PAYMENT_MODE, $paymentMode);
+            $this->configWriter->save(ConfigHelper::XML_PATH_REGION, $region);
             return $result->setData(
                 [
                     'success' => true,

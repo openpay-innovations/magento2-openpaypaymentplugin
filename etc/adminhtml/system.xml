@@ -28,6 +28,11 @@
                         <source_model>Openpay\Payment\Model\Adminhtml\Source\EnvRadioBtn</source_model>
                         <config_path>payment/openpay/payment_mode</config_path>
                     </field>
+                    <field id="region" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Region</label>
+                        <source_model>Openpay\Payment\Model\Adminhtml\Source\Regions</source_model>
+                        <config_path>payment/openpay/region</config_path>
+                    </field>
                     <field id="auth_user" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="0">
                         <label>Openpay Username</label>
                         <config_path>payment/openpay/auth_user</config_path>

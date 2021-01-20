@@ -11,6 +11,7 @@
                 <schedule_pending_order_status>0 * * * *</schedule_pending_order_status>
                 <job_frequency>30</job_frequency>
                 <payment_mode>test</payment_mode>
+                <region>Au</region>
             </openpay>
         </payment>
     </default>

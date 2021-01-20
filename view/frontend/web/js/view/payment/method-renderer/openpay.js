@@ -2,6 +2,8 @@ define(
     [
         'Magento_Checkout/js/view/payment/default',
         'Magento_Checkout/js/model/quote',
+        'Magento_Checkout/js/model/url-builder',
+        'mage/storage',
         'jquery',
         'ko',
         'Magento_Checkout/js/model/payment/additional-validators',
@@ -11,11 +13,12 @@ define(
         'Magento_Checkout/js/action/place-order',
         'Magento_Checkout/js/model/full-screen-loader',
         'Magento_Ui/js/model/messageList',
-        'Magento_Checkout/js/model/totals'
+        'Magento_Checkout/js/model/totals',
+        'Magento_Checkout/js/action/get-payment-information'
     ],
-    function (Component, quote, $, ko, additionalValidators, setPaymentInformationAction, url, customer, placeOrderAction, fullScreenLoader, messageList, totals) {
+    function (Component, quote, urlBuilder, storage, $, ko, additionalValidators, setPaymentInformationAction, url, customer, placeOrderAction, fullScreenLoader, messageList, totals,getPaymentInformationAction) {
         'use strict';
-
+​
         return Component.extend({
             defaults: {
                 template: 'Openpay_Payment/payment/openpay'
@@ -30,12 +33,6 @@ define(
             isEnable : function() {
                 var isModuleEnable = window.checkoutConfig.payment.openpay.is_enable;
                 if (isModuleEnable == 1) {
-                    var subtotal = quote.totals().subtotal;
-                    var min = window.checkoutConfig.payment.openpay.min;
-                    var max = window.checkoutConfig.payment.openpay.max;
-                    if (subtotal < min || subtotal > max) {
-                        return false;
-                    }
                     return true;
                 } 
                 return false;
@@ -46,16 +43,19 @@ define(
             getDescription : function() {
                 return window.checkoutConfig.payment.openpay.description;
             },
-
+​
             /**
              * @override
              */
              /** Process Payment */
             prepareForTokenization: function (context, event) {
-                $('.openpay-error').html('');
-                
-                var shippingAddress = quote.shippingAddress();              
+                $('.openpay-error').html('');            
                 var billingAddress = quote.billingAddress();
+                var shippingAddress = quote.shippingAddress();
+                var paymentMethodId = $(".payment-methods input[type='radio']:checked").attr('id');
+                var isBillingAddressSame = $("#billing-address-same-as-shipping-"+paymentMethodId).prop('checked');
+​
+                var quoteId = window.checkoutConfig.payment.openpay.quote_id;
                 if (!shippingAddress.region && !billingAddress.region) {
                     $('.openpay-error').html('Please enter the state on both shipping and billing address');
                     return;
@@ -64,17 +64,84 @@ define(
                     $('.openpay-error').html('Please enter the state on shipping address');
                     return;
                 }
-
+​
                 if (!billingAddress.region) {
                     $('.openpay-error').html('Please enter the state on billing address');
                     return;
                 }
-
-                var quoteId = window.checkoutConfig.payment.openpay.quote_id;
-                $('<form action="'+url.build('openpay/payment/tokenization')+'" method="POST">' +
-                '<input type="hidden" name="cartId" value="' + quoteId + '" />' +
-                '<input type="hidden" name="email" value="' + quote.guestEmail + '" />' +
-                '</form>').appendTo('body').submit();
+                fullScreenLoader.startLoader();
+                if (!isBillingAddressSame) {
+                    /**
+                     * Checkout for guest and registered customer.
+                     */
+                    var serviceUrl,
+                    payload;
+​
+                    if (!customer.isLoggedIn()) {
+                        serviceUrl = urlBuilder.createUrl('/guest-carts/:cartId/billing-address', {
+                            cartId: quote.getQuoteId()
+                        });
+                        payload = {
+                            cartId: quote.getQuoteId(),
+                            address: quote.billingAddress()
+                        };
+                    } else {
+                        serviceUrl = urlBuilder.createUrl('/carts/mine/billing-address', {});
+                        payload = {
+                            cartId: quote.getQuoteId(),
+                            address: quote.billingAddress()
+                        };
+                    }
+                    storage.post(
+                        serviceUrl, JSON.stringify(payload)
+                    ).done(
+                        function () {
+                            var tokenizationUrl = urlBuilder.createUrl('/payment/tokenization', {});
+                            var customPayload = {
+                                cartId: quoteId,
+                                email: quote.guestEmail
+                            };
+                            storage.post(
+                                tokenizationUrl, 
+                                JSON.stringify(customPayload),
+                                true
+                            ).done(
+                                function (response) {
+                                    fullScreenLoader.stopLoader();
+                                    window.location.href = response;
+                                }
+                            ).fail(
+                                function (response) {
+                                    console.log('fail');
+                                }
+                            );
+                        }
+                    ).fail(
+                        function (response) {
+                            console.log('fail');
+                        }
+                    );
+                } else {
+                    var tokenizationUrl = urlBuilder.createUrl('/payment/tokenization', {});
+                    var customPayload = {
+                        cartId: quoteId,
+                        email: quote.guestEmail
+                    };
+                    storage.post(
+                        tokenizationUrl, 
+                        JSON.stringify(customPayload),
+                        true
+                    ).done(
+                        function (response) {
+                            fullScreenLoader.stopLoader();
+                            window.location.href = response;
+                        }
+                    ).fail(
+                        function (response) {
+                            console.log('fail');
+                        }
+                    );
+                }
             },
             getWidgetEnabled: function () {
                 var widgetEnabled = window.checkoutConfig.widgetEnabled;
@@ -84,7 +151,7 @@ define(
                     return 1;
                 }
             },
-
+​
             getInstalmentText: function () {
                 var widgetEnabled = window.checkoutConfig.widgetEnabled;
                 if (widgetEnabled !== 1) {
@@ -93,7 +160,7 @@ define(
                 var widgetSettingConfig = window.checkoutConfig.widgetSetting;
                 return widgetSettingConfig.instalment_text;
             },
-
+​
             getRedirectText: function () {
                 var widgetEnabled = window.checkoutConfig.widgetEnabled;
                 if (widgetEnabled !== 1) {
@@ -102,7 +169,7 @@ define(
                 var widgetSettingConfig = window.checkoutConfig.widgetSetting;
                 return widgetSettingConfig.redirect_text;
             },
-
+​
             getMonthText: function () {
                 var widgetEnabled = window.checkoutConfig.widgetEnabled;
                 if (widgetEnabled !== 1) {
@@ -113,4 +180,4 @@ define(
             }
         });
     }
-);
+)

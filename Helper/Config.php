@@ -41,20 +41,23 @@ class Config extends AbstractHelper
     /** @var string */
     const XML_PATH_REDIRECT_URL = 'payment/openpay/handover_url';
 
-    /** @var int */
+    /** @var string */
     const XML_PATH_MINIMUM = 'payment/openpay/minimum';
 
-    /** @var int */
+    /** @var string */
     const XML_PATH_MAXIMUM = 'payment/openpay/maximum';
 
-    /** @var int */
+    /** @var string */
     const XML_PATH_DISABLE_CATEGORIES = 'payment/openpay/disable_categories';
 
-    /** @var int */
+    /** @var string */
     const XML_PATH_DISABLE_PRODUCTS = 'payment/openpay/disable_products';
 
-    /** @var int */
+    /** @var string */
     const XML_PATH_JOB_FREQUENCY = 'payment/openpay/job_frequency';
+	    
+    /** @var string */
+    const XML_PATH_REGION = 'payment/openpay/region';
 
     /** @var StoreManagerInterface */
     protected $storeManager;
@@ -237,6 +240,18 @@ class Config extends AbstractHelper
         );
     }
 
+	/**
+     * @return string
+     */
+    public function getRegion($storeId = null)
+    {
+        return $this->getScopeConfig()->getValue(
+            self::XML_PATH_REGION,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
     /**
      * This function will extract all the values of the backend form
      * $backendParams will create new array from all the values
@@ -252,7 +267,8 @@ class Config extends AbstractHelper
             'auth_token' => $this->getPassword($storeId),
             'minimum' => $this->getMinimum($storeId),
             'maximum' => $this->getMaximum($storeId),
-            'job_frequency' => $this->getJobFrequency($storeId)
+            'job_frequency' => $this->getJobFrequency($storeId),
+            'region' => $this->getRegion($storeId)
         ];
         return $backendParams;
     }

@@ -3,15 +3,13 @@ require([
     'jquery',
     'prototype'
 ], function(jQuery){
-
     var customSpan = jQuery('#custom_span');
-
     jQuery('#btn_id').click(function () {
-
         var params = {
             'auth_user' : jQuery('input[name="groups[openpay][groups][credentials][fields][auth_user][value]"]').val(),
             'auth_token' : jQuery('input[name="groups[openpay][groups][credentials][fields][auth_token][value]"]').val(),
-            'payment_mode' : jQuery('input[name="groups[openpay][groups][credentials][fields][payment_mode][value]"]:checked').val()
+            'payment_mode' : jQuery('input[name="groups[openpay][groups][credentials][fields][payment_mode][value]"]:checked').val(),
+            'region' : jQuery('select[name="groups[openpay][groups][credentials][fields][region][value]"]').find('option:selected').val()
         };
         new Ajax.Request('<?php echo $block->getCustomUrl() ?>', {
             parameters:     params,
@@ -33,10 +31,10 @@ require([
                     customSpan.find('.collected').show();
                     data = JSON.parse(response.responseText);
                     if (data.success) {
-                        if (data.min) {
-                        jQuery('input[name="groups[openpay][groups][credentials][fields][minimum][value]"]').val(data.min);
+                        if (typeof data.min !== 'undefined') {
+                            jQuery('input[name="groups[openpay][groups][credentials][fields][minimum][value]"]').val(data.min);
                         }
-                        if (data.max) {
+                        if (typeof data.max !== 'undefined') {
                             jQuery('input[name="groups[openpay][groups][credentials][fields][maximum][value]"]').val(data.max);
                         }
                         jQuery('#custom_message_span').removeClass('error');
@@ -45,16 +43,12 @@ require([
                         jQuery('#custom_message_span').addClass('error');
                         jQuery('#custom_message_span').text(data.message);
                     }
-
                 }
-               
             }
         });
     });
-
 });
 </script>
-
 <?php echo $block->getButtonHtml() ?>
 <span class="custom-indicator" id="custom_span">
     <img class="processing" hidden="hidden" alt="Collecting" style="margin:0 5px" src="<?php echo $block->getViewFileUrl('images/process_spinner.gif') ?>"/>
