@@ -55,7 +55,7 @@ class Config extends AbstractHelper
 
     /** @var string */
     const XML_PATH_JOB_FREQUENCY = 'payment/openpay/job_frequency';
-	    
+        
     /** @var string */
     const XML_PATH_REGION = 'payment/openpay/region';
 
@@ -240,7 +240,7 @@ class Config extends AbstractHelper
         );
     }
 
-	/**
+    /**
      * @return string
      */
     public function getRegion($storeId = null)

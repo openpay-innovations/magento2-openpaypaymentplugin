@@ -5,7 +5,7 @@ namespace Openpay\Payment\Model;
 use Magento\Framework\DataObject as DataObject;
 use BusinessLayer\Openpay\PaymentManager as PaymentManager;
 
-class TokenizationApiManagement  implements \Openpay\Payment\Api\TokenizationApiManagementInterface
+class TokenizationApiManagement implements \Openpay\Payment\Api\TokenizationApiManagementInterface
 {
     public function getTokenizationData($cartId, $email)
     {

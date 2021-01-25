@@ -23,24 +23,24 @@
                 <!-- ko if: (getMonthText() !== '') -->
                     <div class="opplantier" data-bind="html: getMonthText()"></div>
                 <!-- /ko -->
-​
+
                 <!-- ko if: (getInstalmentText() !== '') -->
                     <div class="opfortnightly" data-bind="text: getInstalmentText()"></div>
                 <!-- /ko -->
-​
+
                 <!-- ko if: (getRedirectText() !== '') -->
                     <div class="opinstruction" data-bind="text: getRedirectText()"></div>
                 <!-- /ko -->
             </div>
         </div>
         <!-- /ko -->
-​
+
         <!-- ko ifnot: (getWidgetEnabled() == 1) -->
         <div class="field">
             <span data-bind="html: getDescription()"></span>
         </div>
          <!-- /ko -->
-​
+
         <div class="payment-method-billing-address">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
             <!-- ko template: getTemplate() --><!-- /ko -->

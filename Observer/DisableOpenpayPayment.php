@@ -24,7 +24,7 @@ class DisableOpenpayPayment implements ObserverInterface
     public function __construct(
         ConfigHelper $configHelper
     ) {
-        $this->configHelper = $configHelper;    
+        $this->configHelper = $configHelper;
     }
     
     /**
@@ -46,10 +46,10 @@ class DisableOpenpayPayment implements ObserverInterface
                 $hidePaymentMetod = true;
             }
             
-            if($observer->getEvent()->getMethodInstance()->getCode() == "openpay" && $hidePaymentMetod == true){
+            if ($observer->getEvent()->getMethodInstance()->getCode() == "openpay" && $hidePaymentMetod == true) {
                 $checkResult = $observer->getEvent()->getResult();
                 $checkResult->setData('is_available', false);
             }
-        } 
+        }
     }
 }

@@ -18,7 +18,7 @@ define(
     ],
     function (Component, quote, urlBuilder, storage, $, ko, additionalValidators, setPaymentInformationAction, url, customer, placeOrderAction, fullScreenLoader, messageList, totals,getPaymentInformationAction) {
         'use strict';
-​
+
         return Component.extend({
             defaults: {
                 template: 'Openpay_Payment/payment/openpay'
@@ -43,7 +43,7 @@ define(
             getDescription : function() {
                 return window.checkoutConfig.payment.openpay.description;
             },
-​
+
             /**
              * @override
              */
@@ -54,7 +54,6 @@ define(
                 var shippingAddress = quote.shippingAddress();
                 var paymentMethodId = $(".payment-methods input[type='radio']:checked").attr('id');
                 var isBillingAddressSame = $("#billing-address-same-as-shipping-"+paymentMethodId).prop('checked');
-​
                 var quoteId = window.checkoutConfig.payment.openpay.quote_id;
                 if (!shippingAddress.region && !billingAddress.region) {
                     $('.openpay-error').html('Please enter the state on both shipping and billing address');
@@ -64,7 +63,7 @@ define(
                     $('.openpay-error').html('Please enter the state on shipping address');
                     return;
                 }
-​
+
                 if (!billingAddress.region) {
                     $('.openpay-error').html('Please enter the state on billing address');
                     return;
@@ -76,7 +75,7 @@ define(
                      */
                     var serviceUrl,
                     payload;
-​
+
                     if (!customer.isLoggedIn()) {
                         serviceUrl = urlBuilder.createUrl('/guest-carts/:cartId/billing-address', {
                             cartId: quote.getQuoteId()
@@ -151,7 +150,7 @@ define(
                     return 1;
                 }
             },
-​
+
             getInstalmentText: function () {
                 var widgetEnabled = window.checkoutConfig.widgetEnabled;
                 if (widgetEnabled !== 1) {
@@ -160,7 +159,7 @@ define(
                 var widgetSettingConfig = window.checkoutConfig.widgetSetting;
                 return widgetSettingConfig.instalment_text;
             },
-​
+
             getRedirectText: function () {
                 var widgetEnabled = window.checkoutConfig.widgetEnabled;
                 if (widgetEnabled !== 1) {
@@ -169,7 +168,7 @@ define(
                 var widgetSettingConfig = window.checkoutConfig.widgetSetting;
                 return widgetSettingConfig.redirect_text;
             },
-​
+            
             getMonthText: function () {
                 var widgetEnabled = window.checkoutConfig.widgetEnabled;
                 if (widgetEnabled !== 1) {
