@@ -55,6 +55,15 @@ define(
                 var paymentMethodId = $(".payment-methods input[type='radio']:checked").attr('id');
                 var isBillingAddressSame = $("#billing-address-same-as-shipping-"+paymentMethodId).prop('checked');
                 var quoteId = window.checkoutConfig.payment.openpay.quote_id;
+                var emailId = '';
+                
+                if (quote.guestEmail) {
+                    emailId = quote.guestEmail;
+                } else {
+                    emailId = window.checkoutConfig.customerData.email
+                }
+
+
                 if (!shippingAddress.region && !billingAddress.region) {
                     $('.openpay-error').html('Please enter the state on both shipping and billing address');
                     return;
@@ -98,7 +107,7 @@ define(
                             var tokenizationUrl = urlBuilder.createUrl('/payment/tokenization', {});
                             var customPayload = {
                                 cartId: quoteId,
-                                email: quote.guestEmail
+                                email: emailId
                             };
                             storage.post(
                                 tokenizationUrl, 
@@ -124,7 +133,7 @@ define(
                     var tokenizationUrl = urlBuilder.createUrl('/payment/tokenization', {});
                     var customPayload = {
                         cartId: quoteId,
-                        email: quote.guestEmail
+                        email: emailId
                     };
                     storage.post(
                         tokenizationUrl, 
