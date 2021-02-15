@@ -149,7 +149,7 @@ class Reside extends Action
             }
         } else {
             $this->messageManager->addError(
-                __('Order was cancelled. Please try again.')
+                __('Openpay transaction was cancelled.')
             );
             return $resultRedirect->setPath(
                 'checkout/cart/',
