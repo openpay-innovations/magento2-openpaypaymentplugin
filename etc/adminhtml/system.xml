@@ -56,7 +56,7 @@
                         <frontend_model>Openpay\Payment\Block\System\Config\Form\Field\Button</frontend_model>
                     </field>
                     <field id="job_frequency" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Update Pending Order(s) Older Than</label>
+                        <label>Update Pending Order Older Than</label>
                         <config_path>payment/openpay/job_frequency</config_path>
                         <frontend_model>Openpay\Payment\Block\System\Config\Form\Field\Disable</frontend_model>
                     </field>
