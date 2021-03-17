@@ -67,7 +67,3 @@ Configuration
 In the backend, please click on the `Stores` tab in the left sidebar and go to `Configuration->Sales->Payment Methods`. 
 
 Under `Recommended Solutions`, you will find the Openpay option with the link to configure different settings available for the Openpay Payment module i.e fields to enter the Auth Token provided by Openpay and use the relevant mode.
-
-License
----------
-This code is a closed-source software and released under the proprietary License by [Openpay (Pty) Ltd](https://www.openpay.com.au/).
