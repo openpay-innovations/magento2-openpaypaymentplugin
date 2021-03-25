@@ -49,7 +49,10 @@ define(
              */
              /** Process Payment */
             prepareForTokenization: function (context, event) {
-                $('.openpay-error').html('');            
+                $('.openpay-error').html('');  
+                if (!additionalValidators.validate()) {
+                    return;
+                }          
                 var billingAddress = quote.billingAddress();
                 var shippingAddress = quote.shippingAddress();
                 var paymentMethodId = $(".payment-methods input[type='radio']:checked").attr('id');
