@@ -64,7 +64,7 @@ define(
                 }
 
 
-                if (!shippingAddress.region && !billingAddress.region) {
+                /* if (!shippingAddress.region && !billingAddress.region) {
                     $('.openpay-error').html('Please enter the state on both shipping and billing address');
                     return;
                 }
@@ -76,7 +76,7 @@ define(
                 if (!billingAddress.region) {
                     $('.openpay-error').html('Please enter the state on billing address');
                     return;
-                }
+                } */
                 fullScreenLoader.startLoader();
                 if (!isBillingAddressSame) {
                     /**
