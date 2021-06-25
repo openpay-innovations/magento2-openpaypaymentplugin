@@ -14,9 +14,10 @@ define(
         'Magento_Checkout/js/model/full-screen-loader',
         'Magento_Ui/js/model/messageList',
         'Magento_Checkout/js/model/totals',
-        'Magento_Checkout/js/action/get-payment-information'
+        'Magento_Checkout/js/action/get-payment-information',
+        'Magento_Checkout/js/model/error-processor'
     ],
-    function (Component, quote, urlBuilder, storage, $, ko, additionalValidators, setPaymentInformationAction, url, customer, placeOrderAction, fullScreenLoader, messageList, totals,getPaymentInformationAction) {
+    function (Component, quote, urlBuilder, storage, $, ko, additionalValidators, setPaymentInformationAction, url, customer, placeOrderAction, fullScreenLoader, messageList, totals, getPaymentInformationAction, errorProcessor) {
         'use strict';
 
         return Component.extend({
@@ -48,8 +49,10 @@ define(
              * @override
              */
              /** Process Payment */
-            prepareForTokenization: function (context, event) {
-                $('.openpay-error').html('');            
+            prepareForTokenization: function (context, event) { 
+                if (!additionalValidators.validate()) {
+                    return;
+                }          
                 var billingAddress = quote.billingAddress();
                 var shippingAddress = quote.shippingAddress();
                 var paymentMethodId = $(".payment-methods input[type='radio']:checked").attr('id');
@@ -63,27 +66,14 @@ define(
                     emailId = window.checkoutConfig.customerData.email
                 }
 
-
-                if (!shippingAddress.region && !billingAddress.region) {
-                    $('.openpay-error').html('Please enter the state on both shipping and billing address');
-                    return;
-                }
-                if (!shippingAddress.region) {
-                    $('.openpay-error').html('Please enter the state on shipping address');
-                    return;
-                }
-
-                if (!billingAddress.region) {
-                    $('.openpay-error').html('Please enter the state on billing address');
-                    return;
-                }
                 fullScreenLoader.startLoader();
                 if (!isBillingAddressSame) {
                     /**
                      * Checkout for guest and registered customer.
                      */
                     var serviceUrl,
-                    payload;
+                    payload,
+                    messageContainer;
 
                     if (!customer.isLoggedIn()) {
                         serviceUrl = urlBuilder.createUrl('/guest-carts/:cartId/billing-address', {
@@ -120,13 +110,15 @@ define(
                                 }
                             ).fail(
                                 function (response) {
-                                    console.log('fail');
+                                    fullScreenLoader.stopLoader();
+                                    errorProcessor.process(response, messageContainer);
                                 }
                             );
                         }
                     ).fail(
                         function (response) {
-                            console.log('fail');
+                            fullScreenLoader.stopLoader();
+                            errorProcessor.process(response, messageContainer);
                         }
                     );
                 } else {
@@ -146,7 +138,8 @@ define(
                         }
                     ).fail(
                         function (response) {
-                            console.log('fail');
+                            fullScreenLoader.stopLoader();
+                            errorProcessor.process(response, messageContainer);
                         }
                     );
                 }
@@ -185,6 +178,10 @@ define(
                 }
                 var widgetSettingConfig = window.checkoutConfig.widgetSetting;
                 return widgetSettingConfig.month_text;
+            },
+
+            placeOrder: function () {
+                this.prepareForTokenization();
             }
         });
     }
