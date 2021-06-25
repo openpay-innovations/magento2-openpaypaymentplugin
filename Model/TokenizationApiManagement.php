@@ -46,7 +46,7 @@ class TokenizationApiManagement implements \Openpay\Payment\Api\TokenizationApiM
             return $paymentPage->endpointUrl;
         } catch (\Exception $ex) {
             $logger->debug($ex->getMessage());
-            return false;
+            throw new \Exception('There was a problem. Please try again.');
         }
     }
 }
