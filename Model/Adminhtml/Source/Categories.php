@@ -17,6 +17,8 @@ class Categories implements ArrayInterface
     /** @var CategoryRepository */
     protected $categoryRepository;
 
+    protected $categoryList;
+
     /**
      * categories constructor
      *
@@ -64,7 +66,6 @@ class Categories implements ArrayInterface
      */
     public function toArray()
     {
-
         $categories = $this->getStoreCategories(true, false, true);
         $categoryList = $this->renderCategories($categories);
         return $categoryList;
