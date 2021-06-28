@@ -2,108 +2,98 @@
 
 namespace Openpay\Payment\Model\Adminhtml\Source;
 
-use Magento\Framework\Option\ArrayInterface;
-use Magento\Catalog\Helper\Category;
-use Magento\Catalog\Model\CategoryRepository;
+use Magento\Framework\App\RequestInterface;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Catalog\Api\Data\CategoryTreeInterface;
+use Magento\Catalog\Api\CategoryManagementInterface;
+use Magento\Framework\Api\ExtensibleDataObjectConverter;
 
 /**
  * Class Categories
  */
-class Categories implements ArrayInterface
+class Categories implements \Magento\Framework\Data\OptionSourceInterface
 {
-    /** @var Category */
-    protected $_categoryHelper;
-
-    /** @var CategoryRepository */
-    protected $categoryRepository;
-
-    protected $categoryList;
+     /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+    /**
+     * @var RequestInterface
+     */
+    private $request;
+    /**
+     * @var CategoryManagementInterface
+     */
+    private $categoryManagement;
+    /**
+     * @var ExtensibleDataObjectConverter
+     */
+    private $objectConverter;
 
     /**
-     * categories constructor
-     *
-     * @param Category           $catalogCategory
-     * @param CategoryRepository $categoryRepository
+     * Categories constructor.
+     * @param StoreManagerInterface $storeManager
+     * @param RequestInterface $request
+     * @param CategoryManagementInterface $categoryManagement
+     * @param ExtensibleDataObjectConverter $objectConverter
      */
     public function __construct(
-        Category $catalogCategory,
-        CategoryRepository $categoryRepository
+        StoreManagerInterface $storeManager,
+        RequestInterface $request,
+        CategoryManagementInterface $categoryManagement,
+        ExtensibleDataObjectConverter $objectConverter
     ) {
-        $this->_categoryHelper = $catalogCategory;
-        $this->categoryRepository = $categoryRepository;
+        $this->storeManager = $storeManager;
+        $this->request = $request;
+        $this->categoryManagement = $categoryManagement;
+        $this->objectConverter = $objectConverter;
     }
 
     /**
-     * Return categories helper
-     */
-    public function getStoreCategories($sorted = false, $asCollection = false, $toLoad = true)
-    {
-        return $this->_categoryHelper->getStoreCategories($sorted, $asCollection, $toLoad);
-    }
-
-    /**
-     * Option getter
-     * @return array
+     * Return array of options as value-label pairs
+     *
+     * @return array Format: array(array('value' => '<value>', 'label' => '<label>'), ...)
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function toOptionArray()
     {
-        $arr = $this->toArray();
-        $ret = [];
+        $data = [];
+        $rootIds = $this->getRootIds();
 
-        foreach ($arr as $key => $value) {
-            $ret[] = [
-                'value' => $key,
-                'label' => $value
-            ];
-        }
-
-        return $ret;
-    }
-
-    /**
-     * Get options in "key-value" format
-     * @return array
-     */
-    public function toArray()
-    {
-        $categories = $this->getStoreCategories(true, false, true);
-        $categoryList = $this->renderCategories($categories);
-        return $categoryList;
-    }
-
-    /**
-     * @return array
-     */
-    public function renderCategories($_categories)
-    {
-        foreach ($_categories as $category) {
-            $i = 0;
-            $this->categoryList[$category->getEntityId()] = __($category->getName());   // Main categories
-            $list = $this->renderSubCat($category, $i);
-        }
-
-        return $this->categoryList;
-    }
-
-    /**
-     * @return array
-     */
-    public function renderSubCat($cat, $j)
-    {
-        $categoryObj = $this->categoryRepository->get($cat->getId());
-        $level = $categoryObj->getLevel();
-        $arrow = str_repeat("---", $level-1);
-        $subcategories = $categoryObj->getChildrenCategories();
-
-        foreach ($subcategories as $subcategory) {
-            $this->categoryList[$subcategory->getEntityId()] = __($arrow.$subcategory->getName());
-
-            if ($subcategory->hasChildren()) {
-
-                $this->renderSubCat($subcategory, $j);
-
+        foreach ($rootIds as $rootCategory) {
+            /** @var CategoryTreeInterface $tree */
+            $tree = $this->categoryManagement->getTree($rootCategory, 6);
+            $categoryArray = $this->objectConverter->toNestedArray($tree, [], CategoryTreeInterface::class);
+            if (count($categoryArray)) {
+                $this->getArray($data, $categoryArray["children_data"], 1);
             }
         }
-        return $this->categoryList;
+        return $data;
+    }
+
+    /**
+     * Return ids of root categories as array
+     *
+     * @return array
+     */
+    public function getRootIds()
+    {
+        $ids = [\Magento\Catalog\Model\Category::TREE_ROOT_ID];
+        foreach ($this->storeManager->getGroups() as $store) {
+            $ids[] = $store->getRootCategoryId();
+        }
+        return $ids;
+    }
+
+    public function getArray(&$data, $array, $level = 0)
+    {
+        foreach ($array as $category) {
+            $arrow = str_repeat("-", $level);
+            $data[] = ['value' => $category["id"], 'label' => __($arrow." ".$category["name"])];
+            if ($category["children_data"]) {
+                $this->getArray($data, $category["children_data"], $level+1);
+            }
+        }
     }
 }
