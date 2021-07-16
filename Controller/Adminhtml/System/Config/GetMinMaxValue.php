@@ -86,10 +86,6 @@ class GetMinMaxValue extends Action
                 );
             }
 
-            $this->configWriter->save(ConfigHelper::XML_PATH_USERNAME, $authUser);
-            $this->configWriter->save(ConfigHelper::XML_PATH_PASSWORD, $authToken);
-            $this->configWriter->save(ConfigHelper::XML_PATH_PAYMENT_MODE, $paymentMode);
-            $this->configWriter->save(ConfigHelper::XML_PATH_REGION, $region);
             return $result->setData(
                 [
                     'success' => true,

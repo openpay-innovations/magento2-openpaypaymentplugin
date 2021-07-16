@@ -98,13 +98,9 @@ class Data extends AbstractHelper
      * @return json
      */
     public function getLimits($backofficeparams)
-    {
+    {    
         $response = [];
         try {
-            // get existing value of min and max from backofficeparams
-            $min = $backofficeparams['minimum'];
-            $max = $backofficeparams['maximum'];
-
             /** @var PaymentManager $sdk */
             $sdk = new PaymentManager($backofficeparams);
 
@@ -114,14 +110,6 @@ class Data extends AbstractHelper
             $minValue = ((int)$config->minPrice)/100;
             $maxValue = ((int)$config->maxPrice)/100;
 
-            if ($min == '' || $min != $minValue) {
-                $minField = Config::XML_PATH_MINIMUM;
-                $this->configWriter->save($minField, $minValue);
-            }
-            if ($max == '' || $max!= $maxValue) {
-                $maxField = Config::XML_PATH_MAXIMUM;
-                $this->configWriter->save($maxField, $maxValue);
-            }
             $this->cacheManager->clean($this->cacheManager->getAvailableTypes());
             $response = ['min' => $minValue, 'max' => $maxValue];
         } catch (\Exception $e) {

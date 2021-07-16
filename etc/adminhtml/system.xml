@@ -33,11 +33,11 @@
                         <source_model>Openpay\Payment\Model\Adminhtml\Source\Regions</source_model>
                         <config_path>payment/openpay/region</config_path>
                     </field>
-                    <field id="auth_user" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <field id="auth_user" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Openpay Username</label>
                         <config_path>payment/openpay/auth_user</config_path>
                     </field>
-                    <field id="auth_token" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <field id="auth_token" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Openpay Password</label>
                         <config_path>payment/openpay/auth_token</config_path>
                     </field>
@@ -51,12 +51,12 @@
                         <config_path>payment/openpay/maximum</config_path>
                         <frontend_model>Openpay\Payment\Block\System\Config\Form\Field\Disable</frontend_model>
                     </field>
-                    <field id="button_id" translate="label" type="button" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <field id="button_id" translate="label" type="button" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Get Min/Max Values</label>
                         <frontend_model>Openpay\Payment\Block\System\Config\Form\Field\Button</frontend_model>
                     </field>
                     <field id="job_frequency" translate="label" sortOrder="1" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Update Pending Order Older Than</label>
+                        <label>Update Pending Order older than</label>
                         <config_path>payment/openpay/job_frequency</config_path>
                         <frontend_model>Openpay\Payment\Block\System\Config\Form\Field\Disable</frontend_model>
                     </field>

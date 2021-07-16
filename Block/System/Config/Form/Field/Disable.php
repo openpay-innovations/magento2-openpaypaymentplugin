@@ -17,7 +17,7 @@ class Disable extends Field
      */
     protected function _getElementHtml(AbstractElement $element)
     {
-        $element->setDisabled('disabled');
+        $element->setData('readonly', 1);
         return $element->getElementHtml();
     }
 }
