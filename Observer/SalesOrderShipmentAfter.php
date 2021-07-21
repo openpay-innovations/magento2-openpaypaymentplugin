@@ -45,14 +45,23 @@ class SalesOrderShipmentAfter implements ObserverInterface
         $order = $shipment->getOrder();
         $method = $order->getPayment()->getMethod();
         if ($method == 'openpay') {
-            $storeId = $this->configHelper->getStoreId();
-            $backofficeParams = $this->configHelper->getBackendParams($storeId);
-            try {
-                $sdk = new PaymentManager($backofficeParams);
-                $sdk->setUrlAttributes([$order->getToken()]);
-                $response = $sdk->dispatch();
-            } catch (\Exception $e) {
-                $this->openpayLogger->debug($e->getMessage());
+            $shippedItemsQty = 0;
+            $refundedItemsQty = 0;
+            $totalItemsQty = $order->getData('total_qty_ordered');
+            foreach ($order->getAllVisibleItems() as $item) {
+                $shippedItemsQty += $item->getQtyShipped(); 
+                $refundedItemsQty += $item->getQtyRefunded();
+            }
+            if (((int)$shippedItemsQty + (int)$refundedItemsQty) == (int)$totalItemsQty) {
+                $storeId = $this->configHelper->getStoreId();
+                $backofficeParams = $this->configHelper->getBackendParams($storeId);
+                try {
+                    $sdk = new PaymentManager($backofficeParams);
+                    $sdk->setUrlAttributes([$order->getToken()]);
+                    $response = $sdk->dispatch();
+                } catch (\Exception $e) {
+                    $this->openpayLogger->debug($e->getMessage());
+                }
             }
         }
     }
