@@ -4,8 +4,10 @@
     "type": "magento2-module",
     "license": "proprietary",
     "require": {
-        "ideatarmac/openpay": "^1.0"
+        "php": ">=7.0",
+        "ideatarmac/openpay": "1.0.0"        
     },
+    "version": "1.0.0",
     "authors": [
         {
           "name": "Openpay",
@@ -13,6 +15,8 @@
           "homepage": "https://www.openpay.com.au"
         }
     ],
+    "minimum-stability": "stable",
+    "prefer-stable" : true,
     "autoload": {
       "files": [
         "registration.php"
