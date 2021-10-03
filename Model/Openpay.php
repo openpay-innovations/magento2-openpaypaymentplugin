@@ -151,7 +151,7 @@ class Openpay extends \Magento\Payment\Model\Method\AbstractMethod
         $reduce = round((float)$amount, 2);
         $prices = [
             'newPrice' => 0,
-            'reducePriceBy'=> (int)($reduce * 100),
+            'reducePriceBy'=> ($reduce * 100),
             'isFullRefund' => $isFullRefund
         ];
 
