@@ -21,6 +21,14 @@ class TokenizationApiManagement implements \Openpay\Payment\Api\TokenizationApiM
             $quote->save();
         }
         
+        $totals = [];
+        $totals['retailerOrderNo']= $quote->getId();
+        $totals['subtotal']= $quote->getSubtotal();
+        $totals['shipping']= $quote->getShippingAddress()->getShippingAmount();
+        $totals['tax'] = $quote->getShippingAddress()->getShippingTaxAmount();
+        $totals['grandTotal'] = $quote->getGrandTotal();
+        $totalsAmountInfo = json_encode($totals);
+        
         $layout = $objectManager->create('Magento\Framework\View\LayoutInterface');
         $others = new DataObject();
         $others->origin = "Online";
@@ -30,6 +38,7 @@ class TokenizationApiManagement implements \Openpay\Payment\Api\TokenizationApiM
         $others->cancleUrl = $storeManager->getStore()->getUrl('openpay/payment/reside');
         $others->merchantFailUrl = $storeManager->getStore()->getUrl('openpay/payment/reside');
         $logger = $objectManager->create('Openpay\Payment\Logger\Logger');
+        $logger->info($totalsAmountInfo);
         
         // //getting values from back office configuration on the basis of store id
         $configHelper = $objectManager->create('Openpay\Payment\Helper\Config');

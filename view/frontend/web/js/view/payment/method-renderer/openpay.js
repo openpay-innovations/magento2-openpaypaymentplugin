@@ -49,7 +49,10 @@ define(
              */
              /** Process Payment */
             prepareForTokenization: function (context, event) {
-                $('.openpay-error').html('');            
+                $('.openpay-error').html('');
+				if (!additionalValidators.validate()) {
+                    return;
+                }  
                 var billingAddress = quote.billingAddress();
                 var shippingAddress = quote.shippingAddress();
                 var paymentMethodId = $(".payment-methods input[type='radio']:checked").attr('id');
@@ -64,7 +67,7 @@ define(
                 }
 
 
-                if (!shippingAddress.region && !billingAddress.region) {
+                /* if (!shippingAddress.region && !billingAddress.region) {
                     $('.openpay-error').html('Please enter the state on both shipping and billing address');
                     return;
                 }
@@ -76,7 +79,7 @@ define(
                 if (!billingAddress.region) {
                     $('.openpay-error').html('Please enter the state on billing address');
                     return;
-                }
+                } */
                 fullScreenLoader.startLoader();
                 if (!isBillingAddressSame) {
                     /**
@@ -188,4 +191,4 @@ define(
             }
         });
     }
-)
+);
