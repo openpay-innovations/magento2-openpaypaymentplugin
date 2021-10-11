@@ -49,8 +49,7 @@ define(
              */
              /** Process Payment */
             prepareForTokenization: function (context, event) {
-                $('.openpay-error').html('');
-		if (!additionalValidators.validate()) {
+                if (!additionalValidators.validate()) {
                     return;
                 }  
                 var billingAddress = quote.billingAddress();
