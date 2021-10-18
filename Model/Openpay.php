@@ -159,7 +159,14 @@ class Openpay extends \Magento\Payment\Model\Method\AbstractMethod
         $backofficeParams = $this->configHelper->getBackendParams($storeId);
         try {
             $sdk = new PaymentManager($backofficeParams);
-            $sdk->setUrlAttributes([$order->getToken()]);
+            
+            if($order->getToken()){
+                $token = $order->getToken();            
+            } else {
+                $token = $payment->getParentTransactionId();                
+            }
+            
+            $sdk->setUrlAttributes([$token]);
             $sdk->setShopdata(null, $prices);
             $response = $sdk->refund();
         } catch (\Exception $e) {

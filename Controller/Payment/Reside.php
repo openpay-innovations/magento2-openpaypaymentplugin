@@ -124,6 +124,9 @@ class Reside extends Action
                 }
 
                 $totalFromCart = round((float)$quote->getGrandTotal(), 2);
+                
+                //$totalFromCart = filter_var($totalFromCart, FILTER_SANITIZE_NUMBER_INT);
+                
                 if (($totalFromCart * 100) == $purchasePrice) {
                     $orderId = $this->quoteManagement->placeOrder($quote->getId());
                     $order = $this->orderRepository->get($orderId);
