@@ -127,7 +127,7 @@ class Reside extends Action
                 
                 //$totalFromCart = filter_var($totalFromCart, FILTER_SANITIZE_NUMBER_INT);
                 
-                if (($totalFromCart * 100) == $purchasePrice) {
+                if ((int)round($totalFromCart * 100) == $purchasePrice) {
                     $orderId = $this->quoteManagement->placeOrder($quote->getId());
                     $order = $this->orderRepository->get($orderId);
                     $order->setToken($planid);
