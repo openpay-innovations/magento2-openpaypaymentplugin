@@ -2,7 +2,7 @@
     "name": "opy/module-payment",
     "description": "Openpay Payment Method for Magento 2.",
     "type": "magento2-module",
-    "license": "proprietary",
+    "license": "Apache-2.0",
     "require": {
         "ideatarmac/openpay": "^1.0"
     },
