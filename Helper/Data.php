@@ -258,12 +258,12 @@ class Data extends AbstractHelper
                         $response = $sdk->getOrder();
                     } catch (\Exception $e) {
                         $message = $e->getMessage();
-                        if (strpos($message, 'Error 12704') !== false) {
-                            $order->cancel();
-                            $order->save();
-                        } else {
+                        //if (strpos($message, 'Error 12704') !== false) {
+                        //    $order->cancel();
+                        //    $order->save();
+                        //} else {
                             $this->logger->debug($e->getMessage());
-                        }
+                        //}
                     }
                     if ($response->orderStatus == 'Approved' && $response->planStatus == 'Active') {
                         //capture payment and generate invoice on magento
