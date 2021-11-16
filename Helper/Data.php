@@ -103,7 +103,7 @@ class Data extends AbstractHelper
         try {
             /** @var PaymentManager $sdk */
             $sdk = new PaymentManager($backofficeparams);
-
+            $sdk->setUrlAttributes(array('online'));
             $config = $sdk->getConfiguration();
             
             // get values from openpay pay api
