@@ -140,6 +140,18 @@ class Openpay extends \Magento\Payment\Model\Method\AbstractMethod
 
         $order = $payment->getOrder();
         $isFullRefund = false;
+        
+        $storeId = $order->getStoreId();
+
+        $backofficeParams = [
+            'payment_mode' => $this->configHelper->getPaymentMode($storeId),
+            'auth_user' => $this->configHelper->getUsername($storeId),
+            'auth_token' => $this->configHelper->getPassword($storeId),
+            'minimum' => $this->configHelper->getMinimum($storeId),
+            'maximum' => $this->configHelper->getMaximum($storeId),
+            'job_frequency' => $this->configHelper->getJobFrequency($storeId),
+            'region' => $this->configHelper->getRegion($storeId)
+        ];
 
         $totalPaid = $order->getTotalPaid();
         $totalOnlineRefund = $order->getTotalOnlineRefunded();
@@ -155,8 +167,6 @@ class Openpay extends \Magento\Payment\Model\Method\AbstractMethod
             'isFullRefund' => $isFullRefund
         ];
 
-        $storeId = $this->configHelper->getStoreId();
-        $backofficeParams = $this->configHelper->getBackendParams($storeId);
         try {
             $sdk = new PaymentManager($backofficeParams);
             
